@@ -169,7 +169,11 @@ def addMenu(database):
                 businessField = pyip.inputStr(prompt='input business field: ', applyFunc=lambda x: x.capitalize(), blockRegexes='1234567890@')
                 city = pyip.inputStr(prompt='input city: ', applyFunc=lambda x: x.capitalize(), blockRegexes='1234567890@')
                 phoneNumber = pyip.inputInt(prompt='input phone number: ')
-                email = pyip.inputStr(prompt='input email: ')
+                email = pyip.inputStr(prompt='input email: ') #pyip.inputEmail()
+                
+                # saving menu option
+                savingMenu = ['Are you sure want to save the data ?', 'Back to add Menu']
+
                 database.update(
                     {f'{userInputIndex}': [len(database)-1, companyName, businessField, city, phoneNumber, email]}
                 )
