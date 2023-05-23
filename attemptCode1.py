@@ -171,7 +171,7 @@ def addMenu(database):
                 phoneNumber = pyip.inputInt(prompt='input phone number: ')
                 email = pyip.inputStr(prompt='input email: ') #pyip.inputEmail()
                 
-                # saving menu option
+                ## saving menu option
                 savingMenu = ['Are you sure want to save the data ?', 'Back to add Menu']
 
                 database.update(
