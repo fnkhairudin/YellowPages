@@ -4,7 +4,7 @@ import sys
 import pyinputplus as pyip
 import tabulate
 ## fungsi sorting based on companyName, businessField, or city --> diubah dulu ke dictionary datanya
-## select sub-menu in each Menu still doesn't work properly (looping doesnt work properly)
+### select sub-menu in each Menu still doesn't work properly (looping doesnt work properly)
 
 path = r'C:\Users\faisa\Desktop\DataSciencePurwadhika\Modul1\CapstoneProjectModul1\dbYellowPages.csv'
 
