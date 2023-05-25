@@ -3,12 +3,13 @@ import os
 import sys
 import pyinputplus as pyip
 import tabulate
-## fungsi sorting based on companyName, businessField, or city --> diubah dulu ke dictionary datanya
+## fungsi sorting based on ID, companyName, businessField, or city could be added in readMenu --> diubah dulu ke dictionary datanya
 ## select sub-menu in each Menu still doesn't work properly (looping doesnt work properly, especially addMenu)
-## input validation
+## input validation, double check!!
 ## else in sub-menu doesnt work properly
 ## indexing start from 1 ??
 ## Read menu option 1 not yet added
+## data and choices should be 
 
 path = r'C:\Users\faisa\Desktop\DataSciencePurwadhika\Modul1\CapstoneProjectModul1\dbYellowPages.csv'
 
@@ -31,7 +32,9 @@ for row in reader: # updating dictionary data
                 int(row[4]),
                 str(row[5])
                 ]})
+# close program
 file.close()
+
 # print(db)
 # print(db.values())
 # columns = list(db.values())[0]
@@ -70,7 +73,7 @@ def mainMenu(): ## input validation ##
             # eval(userInput)
         # Otherwise, exit from the menu
         else:
-            print('Have a great day!')
+            print('Have a great one!')
             break
 
     # Open database in write condition
@@ -91,26 +94,31 @@ def mainMenu(): ## input validation ##
 
 # Show data function
 def readMenu(database):
-    """Fungsi untuk menampilkan database ke prompt
+    """
+    Fungsi untuk menampilkan database ke prompt
 
     Args:
         database (dictionary): database yang akan ditampilkan
     """
-    # print title
-    print('Yellow Pages created by @Wajul\n')
-
     # 2D list of database from csv file
     data = list(database.values())[1:]
-
-    # print db in tabular format
-    print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
-    print('\n')
-
     # select menu inside readMenu:
     while True:
-        choices = ['Tampilkan detail perusahaan', 'Kembali ke Main Menu']
+        choices = ['Show all data in database','Show database in detail', 'Back to Main Menu']
         userInput = pyip.inputMenu(prompt='Select Read Menu:\n', choices=choices, numbered=True) ## userInput di-return sebagai string
-        if userInput == 'Tampilkan detail perusahaan':
+        # If user choose 1st option
+        if userInput == 'Show all data in database':
+            if os.path.getsize(path) == 0:
+                print("Data doesn't exist!")
+            else:
+                # print title
+                print('Yellow Pages created by @Wajul\n')
+
+                # print db in tabular format
+                print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
+                print('\n')
+        # If user choose 2nd option
+        elif userInput == 'Show database in detail':
             choices1 = [id for id in range(len(data))]
             userInput1 = int(input("Which ID do you want to return ?\n"))
             #userInput1 = pyip.inputInt(prompt='Which ID do you want to return ?\n', blockRegexes=[r'a-zA-Z'], lessThan=len(data))
@@ -127,7 +135,7 @@ def readMenu(database):
         else:
             break
 
-# add data ## MASIH KURANG : (1). WHILE LOOP DOESNT WORK PROPERLY. (2). pyip.inputEmail() !!!!
+# add data ## MASIH KURANG : (1). WHILE LOOP DOESNT WORK PROPERLY !!!!
 def addMenu(database):
     """
     Fungsi untuk menambahkan item ke dalam database
@@ -160,7 +168,7 @@ def addMenu(database):
                 email = pyip.inputEmail(prompt='input email: ')
                 
                 # print added data in tabular format
-                tabularAddedData = list([userInputIndex, companyName, businessField, city, phoneNumber, email])
+                tabularAddedData = [[userInputIndex, companyName, businessField, city, phoneNumber, email]]
                 print(tabulate.tabulate(tabularAddedData, headers=columns, tablefmt="github"))
 
                 ## saving menu option
@@ -180,7 +188,7 @@ def addMenu(database):
     # return latest database after added new data
     return database
 
-# delete data
+# delete data ## WHILE LOOP DOESNT WORK PROPERLY !!!!
 def deleteMenu(database):
     #print('deleteMenu In Progress')
     """Fungsi untuk menghapus item dari database
@@ -202,7 +210,7 @@ def deleteMenu(database):
         choices1 = ['Delete data in Yellow Pages database', 'Back to Main Menu']
         userInput = pyip.inputMenu(prompt='Select Delete Menu:\n', choices=choices1, numbered=True)
         if userInput == 'Delete data in Yellow Pages database':
-            userInput = pyip.inputInt(prompt='Enter ID that you want to delete from database:')
+            userInput = pyip.inputInt(prompt='Enter ID that you want to delete in database:')
             if userInput in choices:
                 # print data that you want to delete in tabular format
                 print(tabulate.tabulate(data[userInput:userInput+1], headers=columns, tablefmt="github"))
@@ -224,7 +232,20 @@ def deleteMenu(database):
     return database
 
 # update data
-def updateMenu():
-    print('updateMenu In Progress')
+def updateMenu(database):
+    #print('updateMenu In Progress')
+    # list of data
+    data = list(database.values())[1:]
+
+    # available ID
+    choices = [id for id in range(len(data))]
+
+    # select update menu
+    while True:
+        choices1 = ['Update data in Yellow Pages database', 'Back to Main Menu']
+        userInput = pyip.inputMenu(prompt='Select Update Menu:\n', choices=choices1, numbered=True)
+        if userInput == 'Update data in Yellow Pages database':
+            userInputIndex = pyip.inputInt(prompt='Enter ID that you want to update in database:')
+
 
 mainMenu()
