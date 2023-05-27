@@ -9,8 +9,8 @@ import tabulate
 # shall we save variables "data" and "choices" in other function ?
 # phoneNumber : provide country phone code ?
 # limit nomor telepon di bagian input ?
-# Delete beberapa ID atau berdasarkan menu lain --> looping delete atau sesuai index inputan user
 
+# Delete beberapa ID atau berdasarkan menu lain --> looping delete atau sesuai index inputan user [DONE]
 # select sub-menu in each Menu still doesn't work properly (looping doesnt work properly, especially addMenu, deleteMenu) [DONE]
 # dictionary data type can use in tabulate format also [DONE]
 # DELETE MENU : pay attention if user want to change a column that not str data type [DONE]
@@ -42,6 +42,21 @@ for row in reader: # updating dictionary data
 # close program
 file.close()
 
+def valueInttoStr(intlistData):
+    """Fungsi untuk mengubah semua item yg berupa integer 
+        menjadi string yang terdapat di dalam list
+    Args:
+        intlistData (list): list yang berisi item integer
+    Returns:
+        strChoices: list yang semua value itemnya berubah menjadi string
+    """
+    strChoices = []
+    for i in intlistData:
+        a = str(i)
+        strChoices.append(a)
+    return strChoices
+
+
 # print(db)
 # print(db.values())
 # columns = list(db.values())[0]
@@ -51,18 +66,16 @@ file.close()
 #     print(i)
 # print(tabulate.tabulate(data[0:1], headers=columns, tablefmt="github"))
 
-def mainMenu(): ## input validation ##
+def mainMenu():
     """
     The main program to run the whole process
     """
     global db # perubahan db di local akan memengaruhi db di global
     while True:
-        # print choices Menu
+        # choices Menu
         choices = ['Show Data','Add Data', 'Update Data', 'Delete Data', 'Exit Program']
-        # for index,values in enumerate(choices):
-        #     print(f'{index+1}. {values}')
 
-        # user Input ## Maybe you have to try pyip.inputMenu, so notification will comes out as same as in instructions ##
+        # user Input
         userInput = pyip.inputMenu(prompt='\nChoose the menu that you want to run:\n', choices=choices, numbered=True)
 
         # Run selected Menu
@@ -94,7 +107,7 @@ def mainMenu(): ## input validation ##
             for i in data:
                 writer.writerow(i)
 
-            # Close Program
+            # close Program
             file.close()
 
             # close program
@@ -222,23 +235,66 @@ def deleteMenu(database):
         choices1 = ['Delete data in Yellow Pages database', 'Back to Main Menu']
         userInput = pyip.inputMenu(prompt='Select Delete Menu:\n', choices=choices1, numbered=True)
         if userInput == 'Delete data in Yellow Pages database':
-            userInput = pyip.inputInt(prompt='Enter ID that you want to delete in database:')
-            if userInput in choices:
-                # print data that you want to delete in tabular format
-                print(tabulate.tabulate(list([database[str(userInput)]]), headers=columns, tablefmt="github"))
-                
+            # ensure user how many ID that user want to delete
+            userInput1 = pyip.inputChoice(prompt='How many ID that you want to delete ?\nPlease select one of: one or more than one ? ', 
+                             choices=['one', 'more than one'])
+            
+            # if user want to delete only one ID
+            if userInput1 == 'one':
+                userInput2 = pyip.inputInt(prompt='Enter ID that you want to delete in database:')
+                if userInput2 in choices:
+                    # display data that you want to delete in tabular format
+                    print(tabulate.tabulate(list([database[str(userInput2)]]), headers=columns, tablefmt="github"))
+                    
+                    # Ensure user whether to delete or not ?
+                    deletingMenuInput = pyip.inputYesNo(prompt='Are you sure want to delete the data ? (Yes/No):')
+                    # if 'Yes' delete data from database
+                    if deletingMenuInput == 'yes':
+                        del database[str(userInput2)]
+                        # show database after data is deleted
+                        print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
+                        print('\nData successfully deleted!')
+                        break
+                    else:
+                        print('Okey double check your input!\n')
+                else:
+                    print("ID doesn't exist!")
+
+            # if user want to delete more than one ID
+            else:
+                # ensure the user what is the exact amount of ID that user want to delete
+                userInput3 = pyip.inputInt(prompt='Specify the exact amount of ID that you want to delete ?\n', greaterThan=1, lessThan=len(data))
+                userInput4 = []
+                # available ID
+                choices2 = [data[index][0] for index in range(len(data))] # [0, 1, 2, 3, 56]
+                for i in range(userInput3):
+                    userInput5 = pyip.inputMenu(prompt=f'Enter ID ke-{i+1} that you want to delete: \nThese are the available ID:\n', 
+                                                choices=valueInttoStr(choices2), lettered=True)
+                    # in order to showing the data that user want to delete
+                    userInput4.append(userInput5)
+                    # Delete the ID that has been selected, so that the user does not duplicate input 
+                    choices2.remove(int(userInput5))
+
+                # display IDs that user want to delete
+                displayDeleteData = []
+                for i in userInput4:
+                    displayDeleteData.append(db[i])
+                print(tabulate.tabulate(displayDeleteData, headers=columns, tablefmt="github"))
+
                 # Ensure user whether to delete or not ?
                 deletingMenuInput = pyip.inputYesNo(prompt='Are you sure want to delete the data ? (Yes/No):')
                 # if 'Yes' delete data from database
                 if deletingMenuInput == 'yes':
-                    del database[str(userInput)]
+                    # delete multiple ID
+                    for i in userInput4:
+                        del db[str(i)]
                     # show database after data is deleted
-                    print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
+                    print(tabulate.tabulate(list(db.values())[1:], headers=columns, tablefmt="github"))
                     print('\nData successfully deleted!')
+                    break
                 else:
                     print('Okey double check your input!\n')
-            else:
-                print("ID doesn't exist!")
+        # Back to main menu
         else:
             break
     # keep database up to date
