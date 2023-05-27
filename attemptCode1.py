@@ -17,30 +17,7 @@ import tabulate
 # choices dont use len(data) [DONE]
 # show latest database after add or delete [DONE]
 # Read menu option 1 not yet added [DONE]
-
-# path = r'C:\Users\faisa\Desktop\DataSciencePurwadhika\Modul1\CapstoneProjectModul1\dbYellowPages.csv'
-
-# # Read csv file
-# file = open(path, 'r')
-# reader = csv.reader(file, delimiter=';')
-
-# # columns
-# columns = next(reader)
-
-# # make dictionary data type. db as a variable of dictionary data
-# db = {'columns':columns}
-# for row in reader: # updating dictionary data
-#     #print(row[1])
-#     db.update({
-#         str(row[0]) : [int(row[0]), 
-#                 str(row[1]),
-#                 str(row[2]), 
-#                 str(row[3]),
-#                 int(row[4]),
-#                 str(row[5])
-#                 ]})
-# # close program
-# file.close()
+# debugging csv file [DONE]
 
 def valueInttoStr(intlistData):
     """Fungsi untuk mengubah semua item yg berupa integer 
@@ -360,6 +337,7 @@ def updateMenu(database):
 
     # keep database up to date
     return database
+
 
 # first, read path
 path = r'C:\Users\faisa\Desktop\DataSciencePurwadhika\Modul1\CapstoneProjectModul1\dbYellowPages.csv'
