@@ -18,29 +18,29 @@ import tabulate
 # show latest database after add or delete [DONE]
 # Read menu option 1 not yet added [DONE]
 
-path = r'C:\Users\faisa\Desktop\DataSciencePurwadhika\Modul1\CapstoneProjectModul1\dbYellowPages.csv'
+# path = r'C:\Users\faisa\Desktop\DataSciencePurwadhika\Modul1\CapstoneProjectModul1\dbYellowPages.csv'
 
-# Read csv file
-file = open(path, 'r')
-reader = csv.reader(file, delimiter=';')
+# # Read csv file
+# file = open(path, 'r')
+# reader = csv.reader(file, delimiter=';')
 
-# columns
-columns = next(reader)
+# # columns
+# columns = next(reader)
 
-# make dictionary data type. db as a variable of dictionary data
-db = {'columns':columns}
-for row in reader: # updating dictionary data
-    #print(row[1])
-    db.update({
-        str(row[0]) : [int(row[0]), 
-                str(row[1]),
-                str(row[2]), 
-                str(row[3]),
-                int(row[4]),
-                str(row[5])
-                ]})
-# close program
-file.close()
+# # make dictionary data type. db as a variable of dictionary data
+# db = {'columns':columns}
+# for row in reader: # updating dictionary data
+#     #print(row[1])
+#     db.update({
+#         str(row[0]) : [int(row[0]), 
+#                 str(row[1]),
+#                 str(row[2]), 
+#                 str(row[3]),
+#                 int(row[4]),
+#                 str(row[5])
+#                 ]})
+# # close program
+# file.close()
 
 def valueInttoStr(intlistData):
     """Fungsi untuk mengubah semua item yg berupa integer 
@@ -71,6 +71,7 @@ def mainMenu():
     The main program to run the whole process
     """
     global db # perubahan db di local akan memengaruhi db di global
+
     while True:
         # choices Menu
         choices = ['Show Data','Add Data', 'Update Data', 'Delete Data', 'Exit Program']
@@ -130,13 +131,15 @@ def readMenu(database):
         userInput = pyip.inputMenu(prompt='Select Read Menu:\n', choices=choices, numbered=True) ## userInput di-return sebagai string
         # If user choose 1st option
         if userInput == 'Show all data in database':
-            if os.path.getsize(path) == 0:
-                print("Data doesn't exist!")
+            # if database 
+            if data == []:
+                # only display columns without any data
+                print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
+                print("\nData doesn't exist!")
             else:
                 # print title
                 print('Yellow Pages created by @Wajul\n')
-
-                # print db in tabular format
+                # print database in tabular format
                 print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
                 print('\n')
         # If user choose 2nd option
@@ -202,7 +205,6 @@ def addMenu(database):
                     # show data after added data in database
                     data.append(tabularAddedData)
                     print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
-                    # readMenu(database)
                     print('\nData successfully saved!')
                 else:
                     print('\nOkey double check your input data!')
@@ -272,13 +274,13 @@ def deleteMenu(database):
                                                 choices=valueInttoStr(choices2), lettered=True)
                     # in order to showing the data that user want to delete
                     userInput4.append(userInput5)
-                    # Delete the ID that has been selected, so that the user does not duplicate input 
+                    # Delete the ID from the list of available ID because of ID has been selected, so that the user does not duplicate input 
                     choices2.remove(int(userInput5))
 
                 # display IDs that user want to delete
                 displayDeleteData = []
                 for i in userInput4:
-                    displayDeleteData.append(db[i])
+                    displayDeleteData.append(database[i])
                 print(tabulate.tabulate(displayDeleteData, headers=columns, tablefmt="github"))
 
                 # Ensure user whether to delete or not ?
@@ -289,7 +291,7 @@ def deleteMenu(database):
                     for i in userInput4:
                         del db[str(i)]
                     # show database after data is deleted
-                    print(tabulate.tabulate(list(db.values())[1:], headers=columns, tablefmt="github"))
+                    print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
                     print('\nData successfully deleted!')
                     break
                 else:
@@ -346,13 +348,48 @@ def updateMenu(database):
                             break
                         else:
                             print('Okey double check again your input data!\n')           
+                # user does not continue to update data
                 else:
                     print('\nOkey double check your input data!')
-                        
+            # if ID doesnt exist            
             else:
                 print("The data you're looking for doesn't exist\n")
+        # Back to main Menu
         else:
             break
 
     # keep database up to date
     return database
+
+# first, read path
+path = r'C:\Users\faisa\Desktop\DataSciencePurwadhika\Modul1\CapstoneProjectModul1\dbYellowPages.csv'
+
+if os.path.getsize(path) == 0:
+    print('Database doesnt exist, please enter some data!')
+else:
+    # Read csv file
+    file = open(path, 'r')
+    reader = csv.reader(file, delimiter=';')
+
+    # columns
+    columns = next(reader)
+
+    # make dictionary data type. db as a variable of dictionary data
+    db = {'columns':columns}
+    for row in reader: # updating dictionary data
+        #print(row[1])
+        db.update({
+            str(row[0]) : [int(row[0]), 
+                    str(row[1]),
+                    str(row[2]), 
+                    str(row[3]),
+                    int(row[4]),
+                    str(row[5])
+                    ]})
+    # close program
+    file.close()
+
+    # run the program
+    mainMenu()
+# close the program
+sys.exit()
