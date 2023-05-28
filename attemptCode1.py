@@ -3,6 +3,7 @@ import os
 import sys
 import pyinputplus as pyip
 import tabulate
+from datetime import datetime
 # fungsi sorting companyName
 # input validation, double check!!
 # indexing start from 1 ?
@@ -44,6 +45,14 @@ def valueInttoStr(intlistData):
 #     print(i)
 # print(tabulate.tabulate(data[0:1], headers=columns, tablefmt="github"))
 
+def record():
+    """
+    Fungsi untuk menampilkan record apa saja yang telah dilakukan user
+    """
+    file = open(pathRecord, "r")
+    print(file.read())
+    file.close()
+
 def mainMenu():
     """
     The main program to run the whole process
@@ -52,7 +61,7 @@ def mainMenu():
 
     while True:
         # choices Menu
-        choices = ['Show Data','Add Data', 'Update Data', 'Delete Data', 'Exit Program']
+        choices = ['Show Data','Add Data', 'Update Data', 'Delete Data', 'Log database','Exit Program']
 
         # user Input
         userInput = pyip.inputMenu(prompt='\nChoose the menu that you want to run:\n', choices=choices, numbered=True)
@@ -70,27 +79,30 @@ def mainMenu():
             elif userInput == 'Delete Data':
                 # deleteMenu(db)
                 db = deleteMenu(db) # return latest db
+            elif userInput == 'Log database':
+                record()
         # Otherwise, exit from the menu
         else:
             print('Have a great one!')
+            break
+    
+     # Open database in write condition
+    file = open(path, 'w')
 
-            # Open database in write condition
-            file = open(path, 'w')
+    # Keep the database up to date
+    writer = csv.writer(file, lineterminator='\n', delimiter=';')
+    columns = list(db.values())[0] # termasuk kolom dan data
+    data = list(db.values())[1:]
+    writer.writerow(columns) #db.values()
+    data = list(db.values())[1:]
+    for i in data:
+        writer.writerow(i)
 
-            # Keep the database up to date
-            writer = csv.writer(file, lineterminator='\n', delimiter=';')
-            columns = list(db.values())[0] # termasuk kolom dan data
-            data = list(db.values())[1:]
-            writer.writerow(columns) #db.values()
-            data = list(db.values())[1:]
-            for i in data:
-                writer.writerow(i)
+    # close Program
+    file.close()
 
-            # close Program
-            file.close()
-
-            # close program
-            sys.exit()
+    # close program
+    sys.exit()
 
 
 # Show data function
@@ -109,7 +121,7 @@ def readMenu(database):
         userInput = pyip.inputMenu(prompt='Select Read Menu:\n', choices=choices, numbered=True) ## userInput di-return sebagai string
         # If user choose 1st option
         if userInput == 'Show all data in database':
-            # if database 
+            # if data in database doesnt exist
             if data == []:
                 # only display columns without any data
                 print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
@@ -232,6 +244,16 @@ def addMenu(database):
                     data.append(tabularAddedData)
                     print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
                     print('\nData successfully saved!')
+                    
+                    # datetime object containing current date and time
+                    now = datetime.now()
+                    # dd/mm/YY H:M:S
+                    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+                    # write record.txt
+                    file = open(pathRecord, 'a')
+                    file.write(f'User telah menambahkan data ID {userInputIndex} pada {dt_string}\n')
+                    file.close()
                 else:
                     print('\nOkey double check your input data!')
         
@@ -274,7 +296,6 @@ def deleteMenu(database):
                 if userInput2 in choices:
                     # display data that you want to delete in tabular format
                     print(tabulate.tabulate(list([database[str(userInput2)]]), headers=columns, tablefmt="github"))
-                    
                     # Ensure user whether to delete or not ?
                     deletingMenuInput = pyip.inputYesNo(prompt='Are you sure want to delete the data ? (Yes/No):')
                     # if 'Yes' delete data from database
@@ -283,6 +304,16 @@ def deleteMenu(database):
                         # show database after data is deleted
                         print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
                         print('\nData successfully deleted!')
+
+                        # datetime object containing current date and time
+                        now = datetime.now()
+                        # dd/mm/YY H:M:S
+                        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+                        # write record.txt
+                        file = open(pathRecord, 'a')
+                        file.write(f'User telah menghapus data ID {userInput2} pada {dt_string}\n')
+                        file.close()
                         break
                     else:
                         print('Okey double check your input!\n')
@@ -320,6 +351,17 @@ def deleteMenu(database):
                     # show database after data is deleted
                     print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
                     print('\nData successfully deleted!')
+
+                    # datetime object containing current date and time
+                    now = datetime.now()
+                    # dd/mm/YY H:M:S
+                    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+                    # write record.txt
+                    file = open(pathRecord, 'a')
+                    file.write(f'User telah menghapus data ID {userInput4} pada {dt_string}\n')
+                    file.close()
+
                     break
                 else:
                     print('Okey double check your input!\n')
@@ -344,6 +386,7 @@ def updateMenu(database):
         userInput = pyip.inputMenu(prompt='Select Update Menu:\n', choices=choices1, numbered=True)
         if userInput == 'Edit data in Yellow Pages database':
             userInputIndex = pyip.inputInt(prompt='Which ID do you want to update ?\n')
+            # if userInputIdex does exist in database
             if userInputIndex in choices:
                 # show row that user want to update
                 print(tabulate.tabulate(list([database[str(userInputIndex)]]), headers=columns, tablefmt="github"))
@@ -351,10 +394,8 @@ def updateMenu(database):
                 if updateMenuInput == 'yes':
                     # print columns options
                     userInputColumn = pyip.inputMenu(prompt='Which column do you want to update ?\n', choices=columns[1:], numbered=True) # output string
-                    #if userInputColumn in columns: # i think this one is not necessary
-                        # if the user selects a column that contains integer data type
-                    if type(database[str(userInputIndex)][columns.index(userInputColumn)]) == int:
-                            
+                    # if the user selects a column that contains integer data type
+                    if type(database[str(userInputIndex)][columns.index(userInputColumn)]) == int:  
                         database[str(userInputIndex)][columns.index(userInputColumn)] = pyip.inputInt(prompt='Enter new value:')
                     # if user choose 'Email' column
                     elif userInputColumn == 'Email':
@@ -370,6 +411,16 @@ def updateMenu(database):
                     # show updated database
                         print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
                         print('\nData successfully updated!\n')
+
+                        # datetime object containing current date and time
+                        now = datetime.now()
+                        # dd/mm/YY H:M:S
+                        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+                        # write record.txt
+                        file = open(pathRecord, 'a')
+                        file.write(f'User telah mengupdate data ID {userInputIndex} pada kolom {userInputColumn} menjadi {database[str(userInputIndex)][columns.index(userInputColumn)]} pada {dt_string}\n')
+                        file.close()
                         break
                     else:
                         print('Okey double check again your input data!\n')           
@@ -387,8 +438,11 @@ def updateMenu(database):
     return database
 
 
-# first, read path
+# first, read path database
 path = r'C:\Users\faisa\Desktop\DataSciencePurwadhika\Modul1\CapstoneProjectModul1\dbYellowPages.csv'
+
+# second, read path record
+pathRecord = r'C:\Users\faisa\Desktop\DataSciencePurwadhika\Modul1\CapstoneProjectModul1\recordYellowPages.txt'
 
 if os.path.getsize(path) == 0:
     print('Database doesnt exist, please enter some data!')
