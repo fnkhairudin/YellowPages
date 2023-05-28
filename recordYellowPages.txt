@@ -1,4 +1,3 @@
-User telah menambahkan data ID 8 pada 28/05/2023 22:13:02
-User telah mengupdate data ID 3 pada kolom City pada 28/05/2023 22:16:55
-User telah mengupdate data ID 3 pada kolom City menjadi Solo pada 28/05/2023 22:18:30
-User telah menghapus data ID 8 pada 28/05/2023 22:19:08
+(^) User has updated data with ID number 2 in the City column, then change the value into Semarang at 29/05/2023 06:36:13
+(+) User has added data with ID number 7 at 29/05/2023 06:38:47
+(-) User has deleted data with ID number 3 at 29/05/2023 06:39:44

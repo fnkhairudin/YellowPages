@@ -243,7 +243,7 @@ def addMenu(database):
                     # show data after added data in database
                     data.append(tabularAddedData)
                     print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
-                    print('\nData successfully saved!')
+                    print('\nData successfully saved!\n')
                     
                     # datetime object containing current date and time
                     now = datetime.now()
@@ -252,7 +252,7 @@ def addMenu(database):
 
                     # write record.txt
                     file = open(pathRecord, 'a')
-                    file.write(f'User telah menambahkan data ID {userInputIndex} pada {dt_string}\n')
+                    file.write(f'(+) User has added data with ID number {userInputIndex} at {dt_string}\n')
                     file.close()
                 else:
                     print('\nOkey double check your input data!')
@@ -312,7 +312,7 @@ def deleteMenu(database):
 
                         # write record.txt
                         file = open(pathRecord, 'a')
-                        file.write(f'User telah menghapus data ID {userInput2} pada {dt_string}\n')
+                        file.write(f'(-) User has deleted data with ID number {userInput2} at {dt_string}\n')
                         file.close()
                         break
                     else:
@@ -359,7 +359,7 @@ def deleteMenu(database):
 
                     # write record.txt
                     file = open(pathRecord, 'a')
-                    file.write(f'User telah menghapus data ID {userInput4} pada {dt_string}\n')
+                    file.write(f'(-) User has deleted data with ID number {userInput4} at {dt_string}\n')
                     file.close()
 
                     break
@@ -419,7 +419,7 @@ def updateMenu(database):
 
                         # write record.txt
                         file = open(pathRecord, 'a')
-                        file.write(f'User telah mengupdate data ID {userInputIndex} pada kolom {userInputColumn} menjadi {database[str(userInputIndex)][columns.index(userInputColumn)]} pada {dt_string}\n')
+                        file.write(f'(^) User has updated data with ID number {userInputIndex} in the {userInputColumn} column, then change the value into {database[str(userInputIndex)][columns.index(userInputColumn)]} at {dt_string}\n')
                         file.close()
                         break
                     else:
