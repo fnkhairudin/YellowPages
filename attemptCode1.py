@@ -3,7 +3,7 @@ import os
 import sys
 import pyinputplus as pyip
 import tabulate
-# fungsi sorting based on ID, companyName, businessField, or city could be added in readMenu --> diubah dulu ke dictionary datanya
+# fungsi sorting companyName
 # input validation, double check!!
 # indexing start from 1 ?
 # shall we save variables "data" and "choices" in other function ?
@@ -18,6 +18,7 @@ import tabulate
 # show latest database after add or delete [DONE]
 # Read menu option 1 not yet added [DONE]
 # debugging csv file [DONE]
+# fungsi sorting based on ID, businessField, or city could be added in readMenu --> diubah dulu ke dictionary datanya [DONE]
 
 def valueInttoStr(intlistData):
     """Fungsi untuk mengubah semua item yg berupa integer 
@@ -65,14 +66,14 @@ def mainMenu():
                 db = addMenu(db) # return latest db
                 continue
             elif userInput == 'Update Data':
-                db = updateMenu(db)
+                db = updateMenu(db) # return latest db
             elif userInput == 'Delete Data':
                 # deleteMenu(db)
                 db = deleteMenu(db) # return latest db
-            # eval(userInput)
         # Otherwise, exit from the menu
         else:
             print('Have a great one!')
+
             # Open database in write condition
             file = open(path, 'w')
 
@@ -121,18 +122,66 @@ def readMenu(database):
                 print('\n')
         # If user choose 2nd option
         elif userInput == 'Show database in detail':
-            choices1 = [data[index][0] for index in range(len(data))]
-            userInput1 = pyip.inputInt(prompt="Which ID do you want to return ?\n")
-            #userInput1 = pyip.inputInt(prompt='Which ID do you want to return ?\n', blockRegexes=[r'a-zA-Z'], lessThan=len(data))
-            # if ID (index) doesn't exist in database
-            if userInput1 not in choices1:
-                print('Data does not exist!\n')
-            # else: ID (index) exist in database
+            if data == []:
+                # only display columns without any data
+                print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
+                print("\nData doesn't exist!")
             else:
-                print(tabulate.tabulate(list([database[str(userInput1)]]), headers=columns, tablefmt="github"))
-                print('\n')
+                choicesDetail = ['ID', 'businessField', 'City']
+                inputChoicesDetail = pyip.inputMenu(prompt='Filter data according to the: \n', choices=choicesDetail, numbered=True)
+                # data detailing based on ID
+                if inputChoicesDetail == 'ID':
+                    choices1 = [data[index][0] for index in range(len(data))]
+                    userInput1 = pyip.inputInt(prompt="Which ID do you want to return ?\n")
+                    #userInput1 = pyip.inputInt(prompt='Which ID do you want to return ?\n', blockRegexes=[r'a-zA-Z'], lessThan=len(data))
+                    # if ID (index) doesn't exist in database
+                    if userInput1 not in choices1:
+                        print('Data does not exist!\n')
+                    # else: ID (index) exist in database
+                    else:
+                        print(tabulate.tabulate(list([database[str(userInput1)]]), headers=columns, tablefmt="github"))
+                        print('\n')
+                
+                # data detailing based on businessField            
+                elif inputChoicesDetail == 'businessField':
+                    # Available businessField stored in set data type, hence there's no duplication, then convert into list data type
+                    businessFieldSet = {data[index][2] for index in range(len(data))}
+                    businessFieldList = list(businessFieldSet)
+                    # user choose city
+                    userInput = pyip.inputMenu(prompt="Input the businessField you're looking for\n", choices=businessFieldList, numbered=True)
+                    # find the keys of dictionary data
+                    keysTarget = []
+                    for i in data:
+                        if i[2] == userInput:
+                            keysTarget.append(str(i[0]))
+                    # data target in 2D list based on keysTarget
+                    dataTarget = []
+                    for i in keysTarget:
+                        dataTarget.append(database[i])
+                    # show dataTarget in tabular format
+                    print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
+                
+                # data detailing based on city
+                else:
+                    # Available city stored in set data type, hence there's no duplication, the convert into list data type
+                    citySet = {data[index][3] for index in range(len(data))}
+                    cityList = list(citySet)
+                    # user choose city
+                    userInput = pyip.inputMenu(prompt="Input the city you're looking for\n", choices=cityList, numbered=True)
+                    # find the keys of dictionary
+                    keysTarget = []
+                    for i in data:
+                        if i[3] == userInput:
+                            keysTarget.append(str(i[0]))
+                    # data target in 2D list based on keysTarget
+                    dataTarget = []
+                    for i in keysTarget:
+                        dataTarget.append(database[i])
 
-        # back to main menu ('Kembali ke Main Menu')
+                    # show dataTarget in tabular format
+                    print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
+    
+        # back to main menu
         else:
             break
 
@@ -169,7 +218,7 @@ def addMenu(database):
                 phoneNumber = pyip.inputInt(prompt='input phone number: ')
                 email = pyip.inputEmail(prompt='input email: ')
                 
-                # print added data in tabular format
+                # display added data in tabular format
                 tabularAddedData = [userInputIndex, companyName, businessField, city, phoneNumber, email]
                 print(tabulate.tabulate(list([tabularAddedData]), headers=columns, tablefmt="github"))
 
@@ -185,6 +234,8 @@ def addMenu(database):
                     print('\nData successfully saved!')
                 else:
                     print('\nOkey double check your input data!')
+        
+        # back to Main Menu
         else:
             break
             
@@ -194,7 +245,6 @@ def addMenu(database):
 
 # delete data
 def deleteMenu(database):
-    #print('deleteMenu In Progress')
     """Fungsi untuk menghapus item dari database
 
     Args:
@@ -266,7 +316,7 @@ def deleteMenu(database):
                 if deletingMenuInput == 'yes':
                     # delete multiple ID
                     for i in userInput4:
-                        del db[str(i)]
+                        del database[str(i)]
                     # show database after data is deleted
                     print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
                     print('\nData successfully deleted!')
@@ -282,8 +332,6 @@ def deleteMenu(database):
 
 # update data
 def updateMenu(database):
-    #print('updateMenu In Progress')
-
     # list of data
     data = list(database.values())[1:]
 
@@ -295,7 +343,7 @@ def updateMenu(database):
         choices1 = ['Edit data in Yellow Pages database', 'Back to Main Menu']
         userInput = pyip.inputMenu(prompt='Select Update Menu:\n', choices=choices1, numbered=True)
         if userInput == 'Edit data in Yellow Pages database':
-            userInputIndex = pyip.inputInt(prompt='Which ID do you want to update ?\n') # min ??
+            userInputIndex = pyip.inputInt(prompt='Which ID do you want to update ?\n')
             if userInputIndex in choices:
                 # show row that user want to update
                 print(tabulate.tabulate(list([database[str(userInputIndex)]]), headers=columns, tablefmt="github"))
@@ -303,28 +351,28 @@ def updateMenu(database):
                 if updateMenuInput == 'yes':
                     # print columns options
                     userInputColumn = pyip.inputMenu(prompt='Which column do you want to update ?\n', choices=columns[1:], numbered=True) # output string
-                    if userInputColumn in columns:
+                    #if userInputColumn in columns: # i think this one is not necessary
                         # if the user selects a column that contains integer data type
-                        if type(database[str(userInputIndex)][columns.index(userInputColumn)]) == int:
+                    if type(database[str(userInputIndex)][columns.index(userInputColumn)]) == int:
                             
-                            database[str(userInputIndex)][columns.index(userInputColumn)] = pyip.inputInt(prompt='Enter new value:')
-                        # if user choose 'Email' column
-                        elif userInputColumn == 'Email':
-                            database[str(userInputIndex)][columns.index(userInputColumn)] = pyip.inputEmail(prompt='Enter new valu: ')
-                        # if the user selects a column that contains string data type
-                        else:
-                            database[str(userInputIndex)][columns.index(userInputColumn)] = pyip.inputStr(prompt='Enter new value:', applyFunc=lambda x: x.title(), blockRegexes='1234567890@')
-                        # show updated row
-                        print(tabulate.tabulate(list([database[str(userInputIndex)]]), headers=columns, tablefmt="github"))
-                        # Update data or not ?
-                        updateMenuInput1 = pyip.inputYesNo(prompt='\nAre you sure want to update the data ? (Yes/No):') 
-                        if updateMenuInput1 == 'yes':
-                        # show updated database
-                            print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
-                            print('\nData successfully updated!\n')
-                            break
-                        else:
-                            print('Okey double check again your input data!\n')           
+                        database[str(userInputIndex)][columns.index(userInputColumn)] = pyip.inputInt(prompt='Enter new value:')
+                    # if user choose 'Email' column
+                    elif userInputColumn == 'Email':
+                        database[str(userInputIndex)][columns.index(userInputColumn)] = pyip.inputEmail(prompt='Enter new valu: ')
+                    # if the user selects a column that contains string data type
+                    else:
+                        database[str(userInputIndex)][columns.index(userInputColumn)] = pyip.inputStr(prompt='Enter new value:', applyFunc=lambda x: x.title(), blockRegexes='1234567890@')
+                    # show updated row
+                    print(tabulate.tabulate(list([database[str(userInputIndex)]]), headers=columns, tablefmt="github"))
+                    # Update data or not ?
+                    updateMenuInput1 = pyip.inputYesNo(prompt='\nAre you sure want to update the data ? (Yes/No):') 
+                    if updateMenuInput1 == 'yes':
+                    # show updated database
+                        print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
+                        print('\nData successfully updated!\n')
+                        break
+                    else:
+                        print('Okey double check again your input data!\n')           
                 # user does not continue to update data
                 else:
                     print('\nOkey double check your input data!')
