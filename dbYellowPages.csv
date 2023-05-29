@@ -1,5 +1,8 @@
-ID;companyName;businessField;City;phoneNumber;Email
-0;Wind Boost;Technology;Jakarta;8571876;customerservice@windboost.com
-1;Quantum Tech;Technology;Boyolali;243566999;admin@quantumtech.com
-2;Farmlink;Trading;Boyolali;262214125;sales@farmlink.com
-5;Naughty Pythonic;Artificial Intelligence;Jakarta;987564;admin@naughty.com
+ID;companyName;businessField;City;phoneNumber(+62);Email
+0;Wind Boost;Technology;Jakarta;82322075648;customerservice@windboost.com
+1;Quantum Tech;Technology;Boyolali;76495268700;admin@quantumtech.com
+2;Farmlink;Trading;Boyolali;86110354523;sales@farmlink.com
+5;Naughty Pythonic;Artificial Intelligence;Jakarta;97517333860;admin@naughty.com
+7;Codey Byte;Technology;Bandung;8122546789;codey@byte.com
+3;Algo Booster;Mining;Balikpapan;31309309181;algo@booster.com
+4;Techno Decision;Manufacturing;Jakarta;49600003718;admin@technodecision.com

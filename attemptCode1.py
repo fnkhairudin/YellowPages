@@ -85,7 +85,18 @@ def mainMenu():
     """
     The main program to run the whole process
     """
-    global db # perubahan db di local akan memengaruhi db di global
+    # datetime object containing current date and time
+    now = datetime.now()
+    # dd/mm/YY H:M:S
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+    # write record.txt
+    file = open(pathRecord, 'a')
+    file.write(f'(IN) user has been logged in the program at {dt_string}\n')
+    file.close()
+
+    # perubahan db di local akan memengaruhi db di global
+    global db 
 
     while True:
         # choices Menu
@@ -111,6 +122,15 @@ def mainMenu():
                 record()
         # Otherwise, exit from the menu
         else:
+            # datetime object containing current date and time
+            now = datetime.now()
+            # dd/mm/YY H:M:S
+            dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+            # write record.txt
+            file = open(pathRecord, 'a')
+            file.write(f'(X) user has been logged out of the program at {dt_string}\n')
+            file.close()
             print('Have a great one!')
             break
 
@@ -186,7 +206,7 @@ def readMenu(database):
                     print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
                 
                 # data detailing based on city
-                elif inputChoicesDetail == 'city':
+                elif inputChoicesDetail == 'City':
                     # Available city stored in set data type, hence there's no duplication, the convert into list data type
                     citySet = {data[index][3] for index in range(len(data))}
                     cityList = list(citySet)
@@ -224,6 +244,8 @@ def readMenu(database):
                         dataTarget.append(database[str(i)])
                     # show dataTarget in tabular format
                     print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
+                
+                # sorting based on ID (0-9)
                 else:
                     # sorted ID
                     idList = [data[index][0] for index in range(len(data))]
@@ -277,7 +299,14 @@ def addMenu(database):
                 companyName = pyip.inputStr(prompt='input company name: ', applyFunc=lambda x: x.title(), blockRegexes='1234567890@')
                 businessField = pyip.inputStr(prompt='input business field: ', applyFunc=lambda x: x.title(), blockRegexes='1234567890@')
                 city = pyip.inputStr(prompt='input city: ', applyFunc=lambda x: x.title(), blockRegexes='1234567890@')
-                phoneNumber = pyip.inputInt(prompt='input phone number: ')
+                # number of digits of phone number must be less than or equal to 11 digits
+                while True:
+                    phoneNumber = pyip.inputInt(prompt='input phone number: ')
+                    if len(str(phoneNumber)) <= 11:
+                        break
+                    else:
+                        print("number of digits of the phone number must be less than or equal to 11 digits")
+                #phoneNumber = pyip.inputInt(prompt='input phone number: ')
                 email = pyip.inputEmail(prompt='input email: ')
                 
                 # display added data in tabular format
@@ -307,7 +336,7 @@ def addMenu(database):
 
                     # write record.txt
                     file = open(pathRecord, 'a')
-                    file.write(f'(+) User has added data with ID number {userInputIndex} at {dt_string}\n')
+                    file.write(f'(ADD) User has added data with ID number {userInputIndex} at {dt_string}\n')
                     file.close()
                 else:
                     print('\nOkey double check your input data!')
@@ -372,7 +401,7 @@ def deleteMenu(database):
 
                         # write record.txt
                         file = open(pathRecord, 'a')
-                        file.write(f'(-) User has deleted data with ID number {userInput2} at {dt_string}\n')
+                        file.write(f'(DELETE) User has deleted data with ID number {userInput2} at {dt_string}\n')
                         file.close()
                         
                     else:
@@ -424,7 +453,7 @@ def deleteMenu(database):
 
                     # write record.txt
                     file = open(pathRecord, 'a')
-                    file.write(f"(-) User has deleted data with ID number {','.join(userInput4)} at {dt_string}\n")
+                    file.write(f"(DELETE) User has deleted data with ID number {','.join(userInput4)} at {dt_string}\n")
                     file.close()
                     
                 else:
@@ -488,7 +517,7 @@ def updateMenu(database):
 
                         # write record.txt
                         file = open(pathRecord, 'a')
-                        file.write(f'(^) User has updated data with ID number {userInputIndex} in the {userInputColumn} column, then change the value into {database[str(userInputIndex)][columns.index(userInputColumn)]} at {dt_string}\n')
+                        file.write(f'(UPDATE) User has updated data with ID number {userInputIndex} in the {userInputColumn} column, then change the value into {database[str(userInputIndex)][columns.index(userInputColumn)]} at {dt_string}\n')
                         file.close()
                         
                     else:

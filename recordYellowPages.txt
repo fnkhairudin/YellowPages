@@ -1,9 +1,11 @@
 ----------------------------- CONFIDENTIAL RECORD -----------------------------
 """
 Args:
-    (+) --> add data into database
-    (-) --> delete data from database
-    (^) --> update data in database
+    (ADD)       --> add data into database
+    (DELETE)    --> delete data from database
+    (UPDATE)    --> update data in database
+    (IN)        --> user logged in the program
+    (X)         --> user exit the program
 """
 
 (^) User has updated data with ID number 2 in the City column, then change the value into Semarang at 29/05/2023 06:36:13
@@ -25,3 +27,19 @@ Args:
 (+) User has added data with ID number 7 at 29/05/2023 18:06:40
 (^) User has updated data with ID number 1 in the City column, then change the value into Boyolali at 29/05/2023 18:07:16
 (-) User has deleted data with ID number 3,7 at 29/05/2023 18:08:11
+(+) User has added data with ID number 7 at 29/05/2023 20:39:40
+(^) User has updated data with ID number 0 in the phoneNumber(+62) column, then change the value into 82322075648 at 29/05/2023 20:46:27
+(^) User has updated data with ID number 1 in the phoneNumber(+62) column, then change the value into 76495268700 at 29/05/2023 20:46:54
+(^) User has updated data with ID number 2 in the phoneNumber(+62) column, then change the value into 86110354523 at 29/05/2023 20:47:56
+(^) User has updated data with ID number 5 in the phoneNumber(+62) column, then change the value into 97517333860 at 29/05/2023 20:48:27
+(+) User has added data with ID number 3 at 29/05/2023 20:53:24
+(X) user has been logged out of the program at 29/05/2023 21:02:03
+(IN) user has been logged in the program at 29/05/2023 21:05:42
+(X) user has been logged out of the program at 29/05/2023 21:05:51
+(IN) user has been logged in the program at 29/05/2023 21:05:54
+(X) user has been logged out of the program at 29/05/2023 21:06:34
+(IN) user has been logged in the program at 29/05/2023 21:07:16
+(X) user has been logged out of the program at 29/05/2023 21:07:24
+(IN) user has been logged in the program at 29/05/2023 21:08:36
+(ADD) User has added data with ID number 4 at 29/05/2023 21:11:29
+(X) user has been logged out of the program at 29/05/2023 21:11:36
