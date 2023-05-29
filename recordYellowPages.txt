@@ -1,3 +1,23 @@
+----------------------------- CONFIDENTIAL RECORD -----------------------------
+"""
+Args:
+    (+) --> add data into database
+    (-) --> delete data from database
+    (^) --> update data in database
+"""
+
 (^) User has updated data with ID number 2 in the City column, then change the value into Semarang at 29/05/2023 06:36:13
 (+) User has added data with ID number 7 at 29/05/2023 06:38:47
 (-) User has deleted data with ID number 3 at 29/05/2023 06:39:44
+(-) User has deleted data with ID number 87 at 29/05/2023 14:52:07
+(+) User has added data with ID number 76 at 29/05/2023 14:53:29
+(^) User has updated data with ID number 2 in the City column, then change the value into Boyolali at 29/05/2023 15:11:02
+(+) User has added data with ID number 65 at 29/05/2023 15:23:53
+(+) User has added data with ID number 56 at 29/05/2023 15:24:10
+(-) User has deleted data with ID number 65,56 at 29/05/2023 15:24:31
+(^) User has updated data with ID number 76 in the City column, then change the value into Semarang at 29/05/2023 15:27:17
+(-) User has deleted data with ID number 76 at 29/05/2023 15:53:40
+(+) User has added data with ID number 87 at 29/05/2023 15:55:57
+(-) User has deleted data with ID number 87 at 29/05/2023 15:56:14
+(^) User has updated data with ID number 7 in the phoneNumber column, then change the value into 876543 at 29/05/2023 15:56:52
+(+) User has added data with ID number 3 at 29/05/2023 17:40:09

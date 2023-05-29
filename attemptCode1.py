@@ -4,12 +4,13 @@ import sys
 import pyinputplus as pyip
 import tabulate
 from datetime import datetime
-# fungsi sorting companyName
+
 # input validation, double check!!
-# indexing start from 1 ?
+# ID start from 1 ?
 # shall we save variables "data" and "choices" in other function ?
 # phoneNumber : provide country phone code ?
 # limit nomor telepon di bagian input ?
+# add sub-menu in log database ? clear all log ?
 
 # Delete beberapa ID atau berdasarkan menu lain --> looping delete atau sesuai index inputan user [DONE]
 # select sub-menu in each Menu still doesn't work properly (looping doesnt work properly, especially addMenu, deleteMenu) [DONE]
@@ -19,7 +20,34 @@ from datetime import datetime
 # show latest database after add or delete [DONE]
 # Read menu option 1 not yet added [DONE]
 # debugging csv file [DONE]
-# fungsi sorting based on ID, businessField, or city could be added in readMenu --> diubah dulu ke dictionary datanya [DONE]
+# fungsi sorting based on ID, companyName, businessField, or city could be added in readMenu [DONE]
+# log database [DONE]
+# make writeCsv function [DONE]
+# write directly after added, deleted, or updated by using write code that stored in a function called writeCsv(database, pathCsv)? [DONE]
+
+def writeCsv(database, pathCsv):
+    """
+    Fungsi untuk write CSV file
+
+    Args:
+        database (dictionary): database yang akan di-write
+        path: path dari csv file
+    """
+    # Open database in write condition
+    file = open(pathCsv, 'w')
+
+    # Keep the database up to date
+    writer = csv.writer(file, lineterminator='\n', delimiter=';')
+    columns = list(database.values())[0] # termasuk kolom dan data
+    data = list(database.values())[1:]
+    writer.writerow(columns) #db.values()
+    data = list(database.values())[1:]
+    for i in data:
+        writer.writerow(i)
+
+    # close Program
+    file.close()
+
 
 def valueInttoStr(intlistData):
     """Fungsi untuk mengubah semua item yg berupa integer 
@@ -85,23 +113,7 @@ def mainMenu():
         else:
             print('Have a great one!')
             break
-    
-     # Open database in write condition
-    file = open(path, 'w')
 
-    # Keep the database up to date
-    writer = csv.writer(file, lineterminator='\n', delimiter=';')
-    columns = list(db.values())[0] # termasuk kolom dan data
-    data = list(db.values())[1:]
-    writer.writerow(columns) #db.values()
-    data = list(db.values())[1:]
-    for i in data:
-        writer.writerow(i)
-
-    # close Program
-    file.close()
-
-    # close program
     sys.exit()
 
 
@@ -139,10 +151,10 @@ def readMenu(database):
                 print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
                 print("\nData doesn't exist!")
             else:
-                choicesDetail = ['ID', 'businessField', 'City']
-                inputChoicesDetail = pyip.inputMenu(prompt='Filter data according to the: \n', choices=choicesDetail, numbered=True)
+                choicesDetail = ['Detail ID', 'businessField', 'City', 'companyName', 'sorted ID']
+                inputChoicesDetail = pyip.inputMenu(prompt='Filter or sort data according to the: \n', choices=choicesDetail, numbered=True)
                 # data detailing based on ID
-                if inputChoicesDetail == 'ID':
+                if inputChoicesDetail == 'Detail ID':
                     choices1 = [data[index][0] for index in range(len(data))]
                     userInput1 = pyip.inputInt(prompt="Which ID do you want to return ?\n")
                     #userInput1 = pyip.inputInt(prompt='Which ID do you want to return ?\n', blockRegexes=[r'a-zA-Z'], lessThan=len(data))
@@ -174,7 +186,7 @@ def readMenu(database):
                     print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
                 
                 # data detailing based on city
-                else:
+                elif inputChoicesDetail == 'city':
                     # Available city stored in set data type, hence there's no duplication, the convert into list data type
                     citySet = {data[index][3] for index in range(len(data))}
                     cityList = list(citySet)
@@ -192,7 +204,45 @@ def readMenu(database):
 
                     # show dataTarget in tabular format
                     print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
-    
+                
+                # sorting based on companyName (A-Z)
+                elif inputChoicesDetail == 'companyName':
+                    # sorted company Name
+                    companyNameList = [data[index][1] for index in range(len(data))]
+                    companyNameSort = sorted(companyNameList) # order by companyName A-Z #
+
+                    # find the keys of dictionary
+                    keysTarget = []
+                    for valuesI in companyNameSort: # compare sorted companyName with 2D list[1] which is companyName of database, 
+                        for valuesJ in data:         # when match, return index[0] which is similar with keys
+                            if valuesI == valuesJ[1]:
+                                keysTarget.append(valuesJ[0])
+
+                    # data target in 2D list based on keysTarget
+                    dataTarget = []
+                    for i in keysTarget:
+                        dataTarget.append(database[str(i)])
+                    # show dataTarget in tabular format
+                    print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
+                else:
+                    # sorted ID
+                    idList = [data[index][0] for index in range(len(data))]
+                    idSort = sorted(idList) # order by ID 0-9 #
+
+                    # find the keys of dictionary
+                    keysTarget = []
+                    for valuesI in idSort: # compare sorted ID with 2D list[0] which is ID of each data in database, 
+                        for valuesJ in data:         # when match, return index[0] which is similar with keys
+                            if valuesI == valuesJ[0]:
+                                keysTarget.append(valuesJ[0])
+
+                    # data target in 2D list based on keysTarget
+                    dataTarget = []
+                    for i in keysTarget:
+                        dataTarget.append(database[str(i)])
+                    # show dataTarget in tabular format
+                    print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
+
         # back to main menu
         else:
             break
@@ -243,6 +293,11 @@ def addMenu(database):
                     # show data after added data in database
                     data.append(tabularAddedData)
                     print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
+
+                    # added into csv file ## database is db, path is csv file path
+                    writeCsv(database,path)
+                    
+                    # notification that data 'Data successfully saved!'
                     print('\nData successfully saved!\n')
                     
                     # datetime object containing current date and time
@@ -303,6 +358,11 @@ def deleteMenu(database):
                         del database[str(userInput2)]
                         # show database after data is deleted
                         print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
+                        
+                        # deleted data in csv file ## database as db, path as csv file path
+                        writeCsv(database, path)
+
+                        # notification that data 'Data successfully deleted!'
                         print('\nData successfully deleted!')
 
                         # datetime object containing current date and time
@@ -314,7 +374,7 @@ def deleteMenu(database):
                         file = open(pathRecord, 'a')
                         file.write(f'(-) User has deleted data with ID number {userInput2} at {dt_string}\n')
                         file.close()
-                        break
+                        
                     else:
                         print('Okey double check your input!\n')
                 else:
@@ -350,6 +410,11 @@ def deleteMenu(database):
                         del database[str(i)]
                     # show database after data is deleted
                     print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
+                    
+                    # deleted data in csv file ## database as db, path as csv file path
+                    writeCsv(database, path)
+
+                    # notification that data 'Data successfully deleted!'
                     print('\nData successfully deleted!')
 
                     # datetime object containing current date and time
@@ -359,10 +424,9 @@ def deleteMenu(database):
 
                     # write record.txt
                     file = open(pathRecord, 'a')
-                    file.write(f'(-) User has deleted data with ID number {userInput4} at {dt_string}\n')
+                    file.write(f"(-) User has deleted data with ID number {','.join(userInput4)} at {dt_string}\n")
                     file.close()
-
-                    break
+                    
                 else:
                     print('Okey double check your input!\n')
         # Back to main menu
@@ -410,6 +474,11 @@ def updateMenu(database):
                     if updateMenuInput1 == 'yes':
                     # show updated database
                         print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
+                        
+                        # deleted data in csv file ## database is db, path is csv file path
+                        writeCsv(database, path)
+
+                        # notification that data 'Data successfully updated!'
                         print('\nData successfully updated!\n')
 
                         # datetime object containing current date and time
@@ -421,7 +490,7 @@ def updateMenu(database):
                         file = open(pathRecord, 'a')
                         file.write(f'(^) User has updated data with ID number {userInputIndex} in the {userInputColumn} column, then change the value into {database[str(userInputIndex)][columns.index(userInputColumn)]} at {dt_string}\n')
                         file.close()
-                        break
+                        
                     else:
                         print('Okey double check again your input data!\n')           
                 # user does not continue to update data
