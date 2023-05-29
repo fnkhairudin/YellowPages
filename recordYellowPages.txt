@@ -5,7 +5,7 @@ Args:
     (DELETE)    --> delete data from database
     (UPDATE)    --> update data in database
     (IN)        --> user logged in the program
-    (X)         --> user exit the program
+    (OUT)       --> user exit the program
 """
 
 (^) User has updated data with ID number 2 in the City column, then change the value into Semarang at 29/05/2023 06:36:13

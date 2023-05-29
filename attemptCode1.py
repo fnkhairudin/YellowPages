@@ -133,7 +133,7 @@ def mainMenu():
 
             # write record.txt
             file = open(pathRecord, 'a')
-            file.write(f'(X) user has been logged out of the program at {dt_string}\n')
+            file.write(f'(OUT) user has been logged out of the program at {dt_string}\n')
             file.close()
             print('Have a great one!')
             break
