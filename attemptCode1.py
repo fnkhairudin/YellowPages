@@ -10,8 +10,8 @@ from datetime import datetime
 # shall we save variables "data" and "choices" in other function ?
 # phoneNumber : provide country phone code ?
 # limit nomor telepon di bagian input ?
-# add sub-menu in log database ? clear all log ?
 
+# add sub-menu in log database ? clear all log ? [NO NEEDED]
 # Delete beberapa ID atau berdasarkan menu lain --> looping delete atau sesuai index inputan user [DONE]
 # select sub-menu in each Menu still doesn't work properly (looping doesnt work properly, especially addMenu, deleteMenu) [DONE]
 # dictionary data type can use in tabulate format also [DONE]
@@ -295,7 +295,7 @@ def addMenu(database):
                     print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
 
                     # added into csv file ## database is db, path is csv file path
-                    writeCsv(database,path)
+                    writeCsv(db,path)
                     
                     # notification that data 'Data successfully saved!'
                     print('\nData successfully saved!\n')
@@ -360,7 +360,7 @@ def deleteMenu(database):
                         print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
                         
                         # deleted data in csv file ## database as db, path as csv file path
-                        writeCsv(database, path)
+                        writeCsv(db, path)
 
                         # notification that data 'Data successfully deleted!'
                         print('\nData successfully deleted!')
@@ -402,7 +402,7 @@ def deleteMenu(database):
                 print(tabulate.tabulate(displayDeleteData, headers=columns, tablefmt="github"))
 
                 # Ensure user whether to delete or not ?
-                deletingMenuInput = pyip.inputYesNo(prompt='Are you sure want to delete the data ? (Yes/No):')
+                deletingMenuInput = pyip.inputYesNo(prompt='Are you sure want to delete the data ? (Yes/No):\n')
                 # if 'Yes' delete data from database
                 if deletingMenuInput == 'yes':
                     # delete multiple ID
@@ -412,7 +412,7 @@ def deleteMenu(database):
                     print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
                     
                     # deleted data in csv file ## database as db, path as csv file path
-                    writeCsv(database, path)
+                    writeCsv(db, path)
 
                     # notification that data 'Data successfully deleted!'
                     print('\nData successfully deleted!')
@@ -476,7 +476,7 @@ def updateMenu(database):
                         print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
                         
                         # deleted data in csv file ## database is db, path is csv file path
-                        writeCsv(database, path)
+                        writeCsv(db, path)
 
                         # notification that data 'Data successfully updated!'
                         print('\nData successfully updated!\n')
