@@ -9,8 +9,8 @@ from datetime import datetime
 # ID start from 1 ?
 # shall we save variables "data" and "choices" in other function ?
 # phoneNumber : provide country phone code ?
-# limit nomor telepon di bagian input ?
 
+# limit nomor telepon di bagian input ? [DONE]
 # add sub-menu in log database ? clear all log ? [NO NEEDED]
 # Delete beberapa ID atau berdasarkan menu lain --> looping delete atau sesuai index inputan user [DONE]
 # select sub-menu in each Menu still doesn't work properly (looping doesnt work properly, especially addMenu, deleteMenu) [DONE]
@@ -85,6 +85,10 @@ def mainMenu():
     """
     The main program to run the whole process
     """
+    print("""
+    ======================= YELLOW PAGES IN INDONESIA =======================
+    """)
+
     # datetime object containing current date and time
     now = datetime.now()
     # dd/mm/YY H:M:S
@@ -103,7 +107,7 @@ def mainMenu():
         choices = ['Show Data','Add Data', 'Update Data', 'Delete Data', 'Log database','Exit Program']
 
         # user Input
-        userInput = pyip.inputMenu(prompt='\nChoose the menu that you want to run:\n', choices=choices, numbered=True)
+        userInput = pyip.inputMenu(prompt='Choose the menu that you want to run:\n', choices=choices, numbered=True)
 
         # Run selected Menu
         if userInput != 'Exit Program':
@@ -171,7 +175,7 @@ def readMenu(database):
                 print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
                 print("\nData doesn't exist!")
             else:
-                choicesDetail = ['Detail ID', 'businessField', 'City', 'companyName', 'sorted ID']
+                choicesDetail = ['Detail ID', 'businessField', 'City', 'sorted companyName', 'sorted ID']
                 inputChoicesDetail = pyip.inputMenu(prompt='Filter or sort data according to the: \n', choices=choicesDetail, numbered=True)
                 # data detailing based on ID
                 if inputChoicesDetail == 'Detail ID':
@@ -226,7 +230,7 @@ def readMenu(database):
                     print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
                 
                 # sorting based on companyName (A-Z)
-                elif inputChoicesDetail == 'companyName':
+                elif inputChoicesDetail == 'sorted companyName':
                     # sorted company Name
                     companyNameList = [data[index][1] for index in range(len(data))]
                     companyNameSort = sorted(companyNameList) # order by companyName A-Z #
@@ -306,7 +310,6 @@ def addMenu(database):
                         break
                     else:
                         print("number of digits of the phone number must be less than or equal to 11 digits")
-                #phoneNumber = pyip.inputInt(prompt='input phone number: ')
                 email = pyip.inputEmail(prompt='input email: ')
                 
                 # display added data in tabular format

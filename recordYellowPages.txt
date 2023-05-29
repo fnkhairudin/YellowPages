@@ -43,3 +43,22 @@ Args:
 (IN) user has been logged in the program at 29/05/2023 21:08:36
 (ADD) User has added data with ID number 4 at 29/05/2023 21:11:29
 (X) user has been logged out of the program at 29/05/2023 21:11:36
+(IN) user has been logged in the program at 29/05/2023 21:34:59
+(IN) user has been logged in the program at 29/05/2023 21:35:32
+(X) user has been logged out of the program at 29/05/2023 21:36:07
+(IN) user has been logged in the program at 29/05/2023 21:45:40
+(ADD) User has added data with ID number 6 at 29/05/2023 21:51:42
+(X) user has been logged out of the program at 29/05/2023 21:51:44
+(IN) user has been logged in the program at 29/05/2023 21:59:29
+(DELETE) User has deleted data with ID number 4 at 29/05/2023 21:59:38
+(DELETE) User has deleted data with ID number 6 at 29/05/2023 21:59:51
+(X) user has been logged out of the program at 29/05/2023 22:00:14
+(IN) user has been logged in the program at 29/05/2023 22:00:25
+(X) user has been logged out of the program at 29/05/2023 22:00:30
+(IN) user has been logged in the program at 29/05/2023 22:20:21
+(ADD) User has added data with ID number 10 at 29/05/2023 22:24:03
+(ADD) User has added data with ID number 8 at 29/05/2023 22:26:03
+(ADD) User has added data with ID number 9 at 29/05/2023 22:31:29
+(X) user has been logged out of the program at 29/05/2023 22:32:07
+(IN) user has been logged in the program at 29/05/2023 22:33:46
+(X) user has been logged out of the program at 29/05/2023 22:33:59
