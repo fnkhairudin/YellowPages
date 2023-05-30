@@ -15,13 +15,13 @@ To install requirement with pip, run:
 # Quickstart Guide
 1. Read Menu
        In this menu, there some features such as:
-       a. Show all data in database
-       b. Filter or Sort data according to the:
-            - detailed data based on certain ID
-            - filtered data based on busines field column
-            - filtered data based on city column
-            - sorted company name (A-Z)
-            - sorted ID (0-9)
+       <br>a. Show all data in database
+       <br>b. Filter or Sort data according to the:
+            <br>  - detailed data based on certain ID
+            <br>  - filtered data based on busines field column
+            <br>  - filtered data based on city column
+            <br>  - sorted company name (A-Z)
+            <br>  - sorted ID (0-9)
 2. Add Menu
         Add data to database, but you can't add data if ID does already exist
 3. Update Menu
