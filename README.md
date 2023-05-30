@@ -14,7 +14,7 @@ To install requirement with pip, run:
   
 # Quickstart Guide
 1. Read Menu
-       In this menu, there some features such as:
+       <br>In this menu, there some features such as:
        <br>a. Show all data in database
        <br>b. Filter or Sort data according to the:
             <br>  - detailed data based on certain ID
