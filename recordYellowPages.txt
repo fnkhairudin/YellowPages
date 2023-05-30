@@ -81,3 +81,17 @@ Args:
 (OUT) user has been logged out of the program at 30/05/2023 14:49:07
 (IN) user has been logged in the program at 30/05/2023 14:56:25
 (OUT) user has been logged out of the program at 30/05/2023 14:56:42
+(IN) user has been logged in the program at 30/05/2023 15:02:40
+(OUT) user has been logged out of the program at 30/05/2023 15:03:49
+(IN) user has been logged in the program at 30/05/2023 15:54:46
+(OUT) user has been logged out of the program at 30/05/2023 15:55:38
+(IN) user has been logged in the program at 30/05/2023 17:36:52
+(ADD) User has added data with ID number 98 at 30/05/2023 17:37:44
+(OUT) user has been logged out of the program at 30/05/2023 17:37:55
+(IN) user has been logged in the program at 30/05/2023 17:38:16
+(UPDATE) User has updated data with ID number 98 in the phoneNumber(+62) column, then change the value into 1782636471686231 at 30/05/2023 17:38:46
+(OUT) user has been logged out of the program at 30/05/2023 17:38:50
+(IN) user has been logged in the program at 30/05/2023 17:41:47
+(UPDATE) User has updated data with ID number 98 in the phoneNumber(+62) column, then change the value into 1235641653 at 30/05/2023 17:42:07
+(DELETE) User has deleted data with ID number 98 at 30/05/2023 17:42:29
+(OUT) user has been logged out of the program at 30/05/2023 17:42:32
