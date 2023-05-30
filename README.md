@@ -29,7 +29,7 @@ To install requirement with pip, run:
 4. Delete Data
         <br>Delete data from database only one ID or several ID at the same time based on certain ID
 5. Log Database
-        <br>Record what you do in the program start from login till logout from the program at your current time
+        <br>Record what you do in the program start from login till logout from the program at your current time and will be recorded at file .txt
 
 # Contribute
 If you'd like to contribute to Fruit Market, check out https://github.com/fnkhairudin/YellowPages
