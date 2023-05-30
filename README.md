@@ -4,9 +4,9 @@ A simple application to record unconfidential companies data in all over Indones
 # Installation
 To clone from github, run:
 
-  <br>mkdir folder
-  cd folder
-  git clone git@github.com:fnkhairudin/YellowPages.git
+      mkdir folder
+      cd folder
+      git clone git@github.com:fnkhairudin/YellowPages.git
 
 To install requirement with pip, run:
   
