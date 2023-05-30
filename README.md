@@ -32,4 +32,4 @@ To install requirement with pip, run:
         <br>Record what you do in the program start from login till logout from the program at your current time and will be recorded at file .txt
 
 # Contribute
-If you'd like to contribute to Fruit Market, check out https://github.com/fnkhairudin/YellowPages
+If you'd like to contribute to Yellow Pages, check out https://github.com/fnkhairudin/YellowPages
