@@ -8,7 +8,6 @@ from datetime import datetime
 # input validation, double check!!
 # ID start from 1 ?
 # shall we save variables "data" and "choices" in other function ?
-# phoneNumber : provide country phone code ?
 
 # limit nomor telepon di bagian input ? [DONE]
 # add sub-menu in log database ? clear all log ? [NO NEEDED]
@@ -164,7 +163,9 @@ def readMenu(database):
                 print("\nData doesn't exist!")
             else:
                 # print title
-                print('Yellow Pages created by @Wajul\n')
+                print("""
+=============================================== Yellow Pages created by @Wajul ===============================================\n
+                      """)
                 # print database in tabular format
                 print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
                 print('\n')
@@ -470,6 +471,14 @@ def deleteMenu(database):
 
 # update data
 def updateMenu(database):
+    """Fungsi untuk meng-update item tertentu dari database
+
+    Args:
+        database (dict): databases yang akan diolah
+
+    Returns:
+        database: latest database
+    """
     # list of data
     data = list(database.values())[1:]
 

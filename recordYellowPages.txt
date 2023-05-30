@@ -62,3 +62,20 @@ Args:
 (X) user has been logged out of the program at 29/05/2023 22:32:07
 (IN) user has been logged in the program at 29/05/2023 22:33:46
 (X) user has been logged out of the program at 29/05/2023 22:33:59
+(IN) user has been logged in the program at 29/05/2023 22:59:43
+(IN) user has been logged in the program at 30/05/2023 11:21:53
+(OUT) user has been logged out of the program at 30/05/2023 11:22:36
+(IN) user has been logged in the program at 30/05/2023 11:22:40
+(IN) user has been logged in the program at 30/05/2023 11:23:18
+(IN) user has been logged in the program at 30/05/2023 11:23:54
+(IN) user has been logged in the program at 30/05/2023 11:24:54
+(IN) user has been logged in the program at 30/05/2023 11:25:17
+(IN) user has been logged in the program at 30/05/2023 11:25:36
+(IN) user has been logged in the program at 30/05/2023 11:26:04
+(OUT) user has been logged out of the program at 30/05/2023 11:27:26
+(IN) user has been logged in the program at 30/05/2023 11:28:51
+(OUT) user has been logged out of the program at 30/05/2023 11:29:55
+(IN) user has been logged in the program at 30/05/2023 11:31:07
+(OUT) user has been logged out of the program at 30/05/2023 11:31:28
+(IN) user has been logged in the program at 30/05/2023 14:48:41
+(OUT) user has been logged out of the program at 30/05/2023 14:49:07
