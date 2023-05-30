@@ -79,3 +79,5 @@ Args:
 (OUT) user has been logged out of the program at 30/05/2023 11:31:28
 (IN) user has been logged in the program at 30/05/2023 14:48:41
 (OUT) user has been logged out of the program at 30/05/2023 14:49:07
+(IN) user has been logged in the program at 30/05/2023 14:56:25
+(OUT) user has been logged out of the program at 30/05/2023 14:56:42
