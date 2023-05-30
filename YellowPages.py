@@ -21,7 +21,7 @@ def valueInttoStr(intlistData):
 
 def record():
     """
-    Fungsi untuk menampilkan record apa saja yang telah dilakukan user
+    Function for showing what user does in the program
     """
     file = open(pathRecord, "r")
     print(file.read())
@@ -31,10 +31,6 @@ def mainMenu():
     """
     The main program to run the whole process
     """
-    print("""
-    ======================= YELLOW PAGES IN INDONESIA =======================
-    """)
-
     # datetime object containing current date and time
     now = datetime.now()
     # dd/mm/YY H:M:S
@@ -49,6 +45,9 @@ def mainMenu():
     global db 
 
     while True:
+        print("""
+    ======================= YELLOW PAGES IN INDONESIA =======================
+    """)
         # choices Menu
         choices = ['Show Data','Add Data', 'Update Data', 'Delete Data', 'Log database','Exit Program']
 
@@ -83,9 +82,9 @@ def mainMenu():
             data = list(db.values())[1:]
             for i in data:
                 writer.writerow(i)
-
             # close Program
             file.close()
+
             # datetime object containing current date and time
             now = datetime.now()
             # dd/mm/YY H:M:S
@@ -120,6 +119,10 @@ def readMenu(database):
             # if data in database doesnt exist
             if data == []:
                 # only display columns without any data
+                # print title
+                print("""
+=============================================== Yellow Pages created by @Wajul ===============================================\n
+                      """)
                 print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
                 print("\nData doesn't exist!")
             else:
@@ -160,10 +163,8 @@ def readMenu(database):
                     # user choose city
                     userInput = pyip.inputMenu(prompt="Input the businessField you're looking for\n", choices=businessFieldList, numbered=True)
                     # find the keys of dictionary data
-                    keysTarget = []
-                    for i in data:
-                        if i[2] == userInput:
-                            keysTarget.append(str(i[0]))
+                    keysTarget = [str(i[0]) for i in data if i[2] == userInput]
+
                     # data target in 2D list based on keysTarget
                     dataTarget = [database[i] for i in keysTarget]
                     # for i in keysTarget:
@@ -179,14 +180,10 @@ def readMenu(database):
                     # user choose city
                     userInput = pyip.inputMenu(prompt="Input the city you're looking for\n", choices=cityList, numbered=True)
                     # find the keys of dictionary
-                    keysTarget = []
-                    for i in data:
-                        if i[3] == userInput:
-                            keysTarget.append(str(i[0]))
+                    keysTarget = [str(i[0]) for i in data if i[3] == userInput]
+
                     # data target in 2D list based on keysTarget
                     dataTarget = [database[i] for i in keysTarget]
-                    # for i in keysTarget:
-                    #     dataTarget.append(database[i])
 
                     # show dataTarget in tabular format
                     print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
@@ -287,10 +284,7 @@ def addMenu(database):
                     # show data after added data in database
                     data.append(tabularAddedData)
                     print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
-
-                    # added into csv file ## database is db, path is csv file path
-                    # writeCsv(db,path)
-                    
+                 
                     # notification that data 'Data successfully saved!'
                     print('\nData successfully saved!\n')
                     
@@ -353,8 +347,6 @@ def deleteMenu(database):
                         # show database after data is deleted
                         print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
                         
-                        # deleted data in csv file ## database as db, path as csv file path
-                        # writeCsv(db, path)
 
                         # notification that data 'Data successfully deleted!'
                         print('\nData successfully deleted!')
@@ -405,8 +397,6 @@ def deleteMenu(database):
                     # show database after data is deleted
                     print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
                     
-                    # deleted data in csv file ## database as db, path as csv file path
-                    # writeCsv(db, path)
 
                     # notification that data 'Data successfully deleted!'
                     print('\nData successfully deleted!')
@@ -483,9 +473,6 @@ def updateMenu(database):
                     # show updated database
                         print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
                         
-                        # deleted data in csv file ## database is db, path is csv file path
-                        # writeCsv(db, path)
-
                         # notification that data 'Data successfully updated!'
                         print('\nData successfully updated!\n')
 

@@ -95,3 +95,13 @@ Args:
 (UPDATE) User has updated data with ID number 98 in the phoneNumber(+62) column, then change the value into 1235641653 at 30/05/2023 17:42:07
 (DELETE) User has deleted data with ID number 98 at 30/05/2023 17:42:29
 (OUT) user has been logged out of the program at 30/05/2023 17:42:32
+(IN) user has been logged in the program at 30/05/2023 22:02:19
+(ADD) User has added data with ID number 100 at 30/05/2023 22:11:26
+(UPDATE) User has updated data with ID number 100 in the companyName column, then change the value into Ahud Uwh Duwh Duwh at 30/05/2023 22:11:51
+(DELETE) User has deleted data with ID number 100 at 30/05/2023 22:12:19
+(ADD) User has added data with ID number 80 at 30/05/2023 22:13:17
+(ADD) User has added data with ID number 81 at 30/05/2023 22:13:38
+(DELETE) User has deleted data with ID number 80,81 at 30/05/2023 22:14:19
+(OUT) user has been logged out of the program at 30/05/2023 22:14:40
+(IN) user has been logged in the program at 30/05/2023 22:15:29
+(OUT) user has been logged out of the program at 30/05/2023 22:15:45
