@@ -1,15 +1,70 @@
 import csv
-import os
-import sys
 import pyinputplus as pyip
 import tabulate
 from datetime import datetime
+
+def readCsv(pathCsv):
+    """Function to read your csv file
+
+    Args:
+        pathCsv (path) : path of your csv file
+
+    Return:
+        db : return your data from database as dictionary data type
+
+    Warning:
+        pay attention to the number of your columns in database. Need adjusment in updating dictionary data
+    """
+    # Read csv file
+    file = open(pathCsv, 'r')
+    reader = csv.reader(file, delimiter=';')
+
+    # columns
+    columns = next(reader)
+
+    # make dictionary data type. db as a variable of dictionary data
+    db = {'columns':columns}
+    for row in reader: # updating dictionary data
+        db.update({
+            str(row[0]) : [int(row[0]), 
+                    str(row[1]),
+                    str(row[2]), 
+                    str(row[3]),
+                    int(row[4]),
+                    str(row[5])
+                    ]})
+    # close program
+    file.close()
+    # return the dictionary data
+    return db
+
+def writeCsv(database, pathCsv):
+    """Function to overwrite your csv file
+
+    Args:
+        pathCsv (path) : path of your csv file
+        database : dictionary data
+    """
+    # Open database in write condition
+    file = open(pathCsv, 'w')
+
+    # Keep the database up to date
+    writer = csv.writer(file, lineterminator='\n', delimiter=';')
+    columns = list(database.values())[0] # termasuk kolom dan data
+    data = list(database.values())[1:]
+    writer.writerow(columns) #db.values()
+    data = list(database.values())[1:]
+    for i in data:
+        writer.writerow(i)
+    # close Program
+    file.close()    
 
 def valueInttoStr(intlistData):
     """Fungsi untuk mengubah semua item yg berupa integer 
         menjadi string yang terdapat di dalam list
     Args:
         intlistData (list): list yang berisi item integer
+    
     Returns:
         strChoices: list yang semua value itemnya berubah menjadi string
     """
@@ -19,91 +74,26 @@ def valueInttoStr(intlistData):
         strChoices.append(a)
     return strChoices
 
-def record():
-    """
-    Function for showing what user does in the program
+def record(pathRecord):
+    """Function for showing what user does in the program
+
+    Args:
+        pathRecord : variable that stored your path of record file
     """
     file = open(pathRecord, "r")
     print(file.read())
     file.close()
 
-def mainMenu():
-    """
-    The main program to run the whole process
-    """
-    # datetime object containing current date and time
-    now = datetime.now()
-    # dd/mm/YY H:M:S
-    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-
-    # write record.txt
-    file = open(pathRecord, 'a')
-    file.write(f'(IN) user has been logged in the program at {dt_string}\n')
-    file.close()
-
-    # perubahan db di local akan memengaruhi db di global
-    global db 
-
-    while True:
-        print("""
-    ======================= YELLOW PAGES IN INDONESIA =======================
-    """)
-        # choices Menu
-        choices = ['Show Data','Add Data', 'Update Data', 'Delete Data', 'Log database','Exit Program']
-
-        # user Input
-        userInput = pyip.inputMenu(prompt='Choose the menu that you want to run:\n', choices=choices, numbered=True)
-
-        # Run selected Menu
-        if userInput != 'Exit Program':
-            if userInput == 'Show Data':
-                readMenu(db)
-            elif userInput == 'Add Data':
-                # addMenu(db)
-                db = addMenu(db) # return latest db
-                continue
-            elif userInput == 'Update Data':
-                db = updateMenu(db) # return latest db
-            elif userInput == 'Delete Data':
-                # deleteMenu(db)
-                db = deleteMenu(db) # return latest db
-            elif userInput == 'Log database':
-                record()
-        # Otherwise, exit from the menu
-        else:
-            # Open database in write condition
-            file = open(path, 'w')
-
-            # Keep the database up to date
-            writer = csv.writer(file, lineterminator='\n', delimiter=';')
-            columns = list(db.values())[0] # termasuk kolom dan data
-            data = list(db.values())[1:]
-            writer.writerow(columns) #db.values()
-            data = list(db.values())[1:]
-            for i in data:
-                writer.writerow(i)
-            # close Program
-            file.close()
-
-            # datetime object containing current date and time
-            now = datetime.now()
-            # dd/mm/YY H:M:S
-            dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-
-            # write record.txt
-            file = open(pathRecord, 'a')
-            file.write(f'(OUT) user has been logged out of the program at {dt_string}\n')
-            file.close()
-            print('Have a great one!')
-            break
-
-    sys.exit()
-
+"""CURD FUNCTION: 
+    1. Create : addMenu(arg1,arg2,...)
+    2. Update : updateMenu(arg1,arg2,...)
+    3. Read   : readMenu(arg1,arg2,...)
+    4. Delete : deleteMenu(arg1,arg2,...)
+"""
 
 # Show data function
 def readMenu(database):
-    """
-    Fungsi untuk menampilkan database ke prompt
+    """Function to show your data as tabular format
 
     Args:
         database (dictionary): database yang akan ditampilkan
@@ -123,7 +113,7 @@ def readMenu(database):
                 print("""
 =============================================== Yellow Pages created by @Wajul ===============================================\n
                       """)
-                print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
+                print(tabulate.tabulate(data, headers=database['columns'], tablefmt="github"))
                 print("\nData doesn't exist!")
             else:
                 # print title
@@ -131,13 +121,13 @@ def readMenu(database):
 =============================================== Yellow Pages created by @Wajul ===============================================\n
                       """)
                 # print database in tabular format
-                print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
+                print(tabulate.tabulate(data, headers=database['columns'], tablefmt="github"))
                 print('\n')
         # If user choose 2nd option
         elif userInput == 'Show database in detail':
             if data == []:
                 # only display columns without any data
-                print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
+                print(tabulate.tabulate(data, headers=database['columns'], tablefmt="github"))
                 print("\nData doesn't exist!")
             else:
                 choicesDetail = ['Detail ID', 'businessField', 'City', 'sorted companyName', 'sorted ID']
@@ -152,7 +142,7 @@ def readMenu(database):
                         print('Data does not exist!\n')
                     # else: ID (index) exist in database
                     else:
-                        print(tabulate.tabulate(list([database[str(userInput1)]]), headers=columns, tablefmt="github"))
+                        print(tabulate.tabulate(list([database[str(userInput1)]]), headers=database['columns'], tablefmt="github"))
                         print('\n')
                 
                 # data detailing based on businessField            
@@ -167,10 +157,9 @@ def readMenu(database):
 
                     # data target in 2D list based on keysTarget
                     dataTarget = [database[i] for i in keysTarget]
-                    # for i in keysTarget:
-                    #     dataTarget.append(database[i])
+
                     # show dataTarget in tabular format
-                    print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
+                    print(tabulate.tabulate(dataTarget, headers=database['columns'], tablefmt='github'))
                 
                 # data detailing based on city
                 elif inputChoicesDetail == 'City':
@@ -186,7 +175,7 @@ def readMenu(database):
                     dataTarget = [database[i] for i in keysTarget]
 
                     # show dataTarget in tabular format
-                    print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
+                    print(tabulate.tabulate(dataTarget, headers=database['columns'], tablefmt='github'))
                 
                 # sorting based on companyName (A-Z)
                 elif inputChoicesDetail == 'sorted companyName':
@@ -203,10 +192,9 @@ def readMenu(database):
 
                     # data target in 2D list based on keysTarget
                     dataTarget = [database[str(i)] for i in keysTarget]
-                    # for i in keysTarget:
-                    #     dataTarget.append(database[str(i)])
+
                     # show dataTarget in tabular format
-                    print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
+                    print(tabulate.tabulate(dataTarget, headers=database['columns'], tablefmt='github'))
                 
                 # sorting based on ID (0-9)
                 else:
@@ -223,10 +211,9 @@ def readMenu(database):
 
                     # data target in 2D list based on keysTarget
                     dataTarget = [database[str(i)] for i in keysTarget]
-                    # for i in keysTarget:
-                    #     dataTarget.append(database[str(i)])
+
                     # show dataTarget in tabular format
-                    print(tabulate.tabulate(dataTarget, headers=columns, tablefmt='github'))
+                    print(tabulate.tabulate(dataTarget, headers=database['columns'], tablefmt='github'))
 
         # back to main menu
         else:
@@ -234,14 +221,14 @@ def readMenu(database):
 
 
 # add data
-def addMenu(database):
-    """
-    Fungsi untuk menambahkan item ke dalam database
+def addMenu(database, pathRecord):
+    """Function to add data into your database
 
     Args:
         database (dict): database yang akan diolah
+        pathRecord: variable that stored your path of record file
 
-    Returns:
+    Return:
         database: latest database
     """
     # list of data
@@ -273,7 +260,7 @@ def addMenu(database):
                 
                 # display added data in tabular format
                 tabularAddedData = [userInputIndex, companyName, businessField, city, phoneNumber, email]
-                print(tabulate.tabulate(list([tabularAddedData]), headers=columns, tablefmt="github"))
+                print(tabulate.tabulate(list([tabularAddedData]), headers=database['columns'], tablefmt="github"))
 
                 ## saving menu option
                 savingMenuInput = pyip.inputYesNo(prompt='Are you sure want to save the data ? (Yes/No):')
@@ -283,7 +270,7 @@ def addMenu(database):
                     
                     # show data after added data in database
                     data.append(tabularAddedData)
-                    print(tabulate.tabulate(data, headers=columns, tablefmt="github"))
+                    print(tabulate.tabulate(data, headers=database['columns'], tablefmt="github"))
                  
                     # notification that data 'Data successfully saved!'
                     print('\nData successfully saved!\n')
@@ -309,23 +296,30 @@ def addMenu(database):
 
 
 # delete data
-def deleteMenu(database):
-    """Fungsi untuk menghapus item dari database
+def deleteMenu(database, pathRecord, pathCsv):
+    """Function to delete data in your database
 
     Args:
-        database (dict): databases yang akan diolah
-
+        database (dict): database yang akan diolah
+        pathRecord: variable that stored your path of record file
+        pathCsv : variable that stored your path of csv file
+    
     Returns:
         database: latest database
     """
-    # list of data
-    data = list(database.values())[1:]
-
-    # available ID
-    choices = [data[index][0] for index in range(len(data))]
 
     # select delete menu
     while True:
+        # read latest database
+        readCsv(pathCsv)
+
+        # list of data
+        data = list(database.values())[1:]
+
+        # available ID
+        choices = [data[index][0] for index in range(len(data))]
+
+        # run sub-delete menu
         choices1 = ['Delete data in Yellow Pages database', 'Back to Main Menu']
         userInput = pyip.inputMenu(prompt='Select Delete Menu:\n', choices=choices1, numbered=True)
         if userInput == 'Delete data in Yellow Pages database':
@@ -338,15 +332,17 @@ def deleteMenu(database):
                 userInput2 = pyip.inputInt(prompt='Enter ID that you want to delete in database:')
                 if userInput2 in choices:
                     # display data that you want to delete in tabular format
-                    print(tabulate.tabulate(list([database[str(userInput2)]]), headers=columns, tablefmt="github"))
+                    print(tabulate.tabulate(list([database[str(userInput2)]]), headers=database['columns'], tablefmt="github"))
                     # Ensure user whether to delete or not ?
                     deletingMenuInput = pyip.inputYesNo(prompt='Are you sure want to delete the data ? (Yes/No):')
                     # if 'Yes' delete data from database
                     if deletingMenuInput == 'yes':
                         del database[str(userInput2)]
                         # show database after data is deleted
-                        print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
+                        print(tabulate.tabulate(list(database.values())[1:], headers=database['columns'], tablefmt="github"))
                         
+                        # run writeCsv function
+                        writeCsv(database, pathCsv)
 
                         # notification that data 'Data successfully deleted!'
                         print('\nData successfully deleted!')
@@ -368,11 +364,17 @@ def deleteMenu(database):
 
             # if user want to delete more than one ID
             else:
-                # ensure the user what is the exact amount of ID that user want to delete
-                userInput3 = pyip.inputInt(prompt='Specify the exact amount of ID that you want to delete ?\n', greaterThan=1, lessThan=len(data))
-                userInput4 = []
+
+                # list of data
+                data = list(database.values())[1:]
+
                 # available ID
                 choices2 = [data[index][0] for index in range(len(data))]
+
+                # ensure the user what is the exact amount of ID that user want to delete
+                userInput3 = pyip.inputInt(prompt='Specify the exact amount of ID that you want to delete ?\n', greaterThan=1, lessThan=len(data))
+                # store IDs that user want to delete in a variable
+                userInput4 = []
                 for i in range(userInput3):
                     userInput5 = pyip.inputMenu(prompt=f'Enter ID ke-{i+1} that you want to delete: \nThese are the available ID:\n', 
                                                 choices=valueInttoStr(choices2), lettered=True)
@@ -383,9 +385,7 @@ def deleteMenu(database):
 
                 # display IDs that user want to delete
                 displayDeleteData = [database[i] for i in userInput4]
-                # for i in userInput4:
-                #     displayDeleteData.append(database[i])
-                print(tabulate.tabulate(displayDeleteData, headers=columns, tablefmt="github"))
+                print(tabulate.tabulate(displayDeleteData, headers=database['columns'], tablefmt="github"))
 
                 # Ensure user whether to delete or not ?
                 deletingMenuInput = pyip.inputYesNo(prompt='Are you sure want to delete the data ? (Yes/No):\n')
@@ -395,8 +395,7 @@ def deleteMenu(database):
                     for i in userInput4:
                         del database[str(i)]
                     # show database after data is deleted
-                    print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
-                    
+                    print(tabulate.tabulate(list(database.values())[1:], headers=database['columns'], tablefmt="github"))
 
                     # notification that data 'Data successfully deleted!'
                     print('\nData successfully deleted!')
@@ -421,12 +420,13 @@ def deleteMenu(database):
 
 
 # update data
-def updateMenu(database):
-    """Fungsi untuk meng-update item tertentu dari database
+def updateMenu(database, pathRecord):
+    """Functio to update certain column and ID of your data in database
 
     Args:
         database (dict): databases yang akan diolah
-
+        pathRecord: variable that stored your path of record file
+    
     Returns:
         database: latest database
     """
@@ -445,33 +445,33 @@ def updateMenu(database):
             # if userInputIdex does exist in database
             if userInputIndex in choices:
                 # show row that user want to update
-                print(tabulate.tabulate(list([database[str(userInputIndex)]]), headers=columns, tablefmt="github"))
+                print(tabulate.tabulate(list([database[str(userInputIndex)]]), headers=database['columns'], tablefmt="github"))
                 updateMenuInput = pyip.inputYesNo(prompt='\nDo you want to continue to update the data ? (Yes/No):') 
                 if updateMenuInput == 'yes':
                     # print columns options
-                    userInputColumn = pyip.inputMenu(prompt='Which column do you want to update ?\n', choices=columns[1:], numbered=True) # output string
+                    userInputColumn = pyip.inputMenu(prompt='Which column do you want to update ?\n', choices=database['columns'][1:], numbered=True) # output string
                     # if the user selects a column that contains integer data type (phoneNumber)
-                    if type(database[str(userInputIndex)][columns.index(userInputColumn)]) == int:
+                    if type(database[str(userInputIndex)][database['columns'].index(userInputColumn)]) == int:
                         # number of digits of phone number must be less than or equal to 11 digits
                         while True:
-                            database[str(userInputIndex)][columns.index(userInputColumn)] = pyip.inputInt(prompt='Enter new value:')
-                            if len(str(database[str(userInputIndex)][columns.index(userInputColumn)])) <= 11:
+                            database[str(userInputIndex)][database['columns'].index(userInputColumn)] = pyip.inputInt(prompt='Enter new value:')
+                            if len(str(database[str(userInputIndex)][database['columns'].index(userInputColumn)])) <= 11:
                                 break
                             else:
                                 print("number of digits of the phone number must be less than or equal to 11 digits")      
                     # if user choose 'Email' column
                     elif userInputColumn == 'Email':
-                        database[str(userInputIndex)][columns.index(userInputColumn)] = pyip.inputEmail(prompt='Enter new valu: ')
+                        database[str(userInputIndex)][database['columns'].index(userInputColumn)] = pyip.inputEmail(prompt='Enter new valu: ')
                     # if the user selects a column that contains string data type
                     else:
-                        database[str(userInputIndex)][columns.index(userInputColumn)] = pyip.inputStr(prompt='Enter new value:', applyFunc=lambda x: x.title(), blockRegexes='1234567890@')
+                        database[str(userInputIndex)][database['columns'].index(userInputColumn)] = pyip.inputStr(prompt='Enter new value:', applyFunc=lambda x: x.title(), blockRegexes='1234567890@')
                     # show updated row
-                    print(tabulate.tabulate(list([database[str(userInputIndex)]]), headers=columns, tablefmt="github"))
+                    print(tabulate.tabulate(list([database[str(userInputIndex)]]), headers=database['columns'], tablefmt="github"))
                     # Update data or not ?
                     updateMenuInput1 = pyip.inputYesNo(prompt='\nAre you sure want to update the data ? (Yes/No):') 
                     if updateMenuInput1 == 'yes':
                     # show updated database
-                        print(tabulate.tabulate(list(database.values())[1:], headers=columns, tablefmt="github"))
+                        print(tabulate.tabulate(list(database.values())[1:], headers=database['columns'], tablefmt="github"))
                         
                         # notification that data 'Data successfully updated!'
                         print('\nData successfully updated!\n')
@@ -483,7 +483,7 @@ def updateMenu(database):
 
                         # write record.txt
                         file = open(pathRecord, 'a')
-                        file.write(f'(UPDATE) User has updated data with ID number {userInputIndex} in the {userInputColumn} column, then change the value into {database[str(userInputIndex)][columns.index(userInputColumn)]} at {dt_string}\n')
+                        file.write(f"(UPDATE) User has updated data with ID number {userInputIndex} in the {userInputColumn} column, then change the value into {database[str(userInputIndex)][database['columns'].index(userInputColumn)]} at {dt_string}\n")
                         file.close()
                         
                     else:
@@ -500,40 +500,3 @@ def updateMenu(database):
 
     # keep database up to date
     return database
-
-
-# first, read path database
-path = r'C:\Users\faisa\Desktop\DataSciencePurwadhika\Modul1\CapstoneProjectModul1\dbYellowPages.csv'
-
-# second, read path record
-pathRecord = r'C:\Users\faisa\Desktop\DataSciencePurwadhika\Modul1\CapstoneProjectModul1\recordYellowPages.txt'
-
-if os.path.getsize(path) == 0:
-    print('Database doesnt exist, please enter some data!')
-else:
-    # Read csv file
-    file = open(path, 'r')
-    reader = csv.reader(file, delimiter=';')
-
-    # columns
-    columns = next(reader)
-
-    # make dictionary data type. db as a variable of dictionary data
-    db = {'columns':columns}
-    for row in reader: # updating dictionary data
-        #print(row[1])
-        db.update({
-            str(row[0]) : [int(row[0]), 
-                    str(row[1]),
-                    str(row[2]), 
-                    str(row[3]),
-                    int(row[4]),
-                    str(row[5])
-                    ]})
-    # close program
-    file.close()
-
-    # run the program
-    mainMenu()
-# close the program
-sys.exit()

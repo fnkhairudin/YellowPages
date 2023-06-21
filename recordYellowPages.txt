@@ -105,3 +105,38 @@ Args:
 (OUT) user has been logged out of the program at 30/05/2023 22:14:40
 (IN) user has been logged in the program at 30/05/2023 22:15:29
 (OUT) user has been logged out of the program at 30/05/2023 22:15:45
+(IN) user has been logged in the program at 05/06/2023 20:08:55
+(UPDATE) User has updated data with ID number 16 in the businessField column, then change the value into Technology at 05/06/2023 20:44:35
+(DELETE) User has deleted data with ID number 16 at 05/06/2023 20:53:10
+(DELETE) User has deleted data with ID number 19,20 at 05/06/2023 21:00:36
+(OUT) user has been logged out of the program at 05/06/2023 21:02:58
+(IN) user has been logged in the program at 05/06/2023 21:03:10
+(OUT) user has been logged out of the program at 05/06/2023 21:28:41
+(IN) user has been logged in the program at 06/06/2023 18:37:44
+(ADD) User has added data with ID number 100 at 06/06/2023 18:48:00
+(UPDATE) User has updated data with ID number 100 in the companyName column, then change the value into Aijdiajd at 06/06/2023 20:47:32
+(IN) user has been logged in the program at 06/06/2023 20:57:48
+(DELETE) User has deleted data with ID number 16 at 06/06/2023 21:10:33
+(UPDATE) User has updated data with ID number 20 in the businessField column, then change the value into Artificial Intelligence at 06/06/2023 21:11:30
+(DELETE) User has deleted data with ID number 19,20 at 06/06/2023 21:21:57
+(IN) user has been logged in the program at 06/06/2023 21:26:31
+(OUT) user has been logged out of the program at 06/06/2023 21:26:33
+(OUT) user has been logged out of the program at 06/06/2023 22:29:12
+(IN) user has been logged in the program at 07/06/2023 13:27:13
+(OUT) user has been logged out of the program at 07/06/2023 13:27:25
+(IN) user has been logged in the program at 07/06/2023 15:15:24
+(OUT) user has been logged out of the program at 07/06/2023 15:15:31
+(IN) user has been logged in the program at 07/06/2023 15:53:42
+(ADD) User has added data with ID number 100 at 07/06/2023 15:55:55
+(UPDATE) User has updated data with ID number 100 in the businessField column, then change the value into Aviation at 07/06/2023 16:03:31
+(DELETE) User has deleted data with ID number 100 at 07/06/2023 16:05:22
+(DELETE) User has deleted data with ID number 19,20,16 at 07/06/2023 16:06:15
+(OUT) user has been logged out of the program at 07/06/2023 17:09:16
+(IN) user has been logged in the program at 21/06/2023 18:44:11
+(OUT) user has been logged out of the program at 21/06/2023 18:44:41
+(IN) user has been logged in the program at 21/06/2023 18:44:54
+(ADD) User has added data with ID number 1231 at 21/06/2023 18:45:50
+(UPDATE) User has updated data with ID number 1231 in the City column, then change the value into Jakarta at 21/06/2023 18:46:09
+(DELETE) User has deleted data with ID number 1231 at 21/06/2023 18:46:20
+(DELETE) User has deleted data with ID number 16,20 at 21/06/2023 18:47:31
+(OUT) user has been logged out of the program at 21/06/2023 18:47:48
